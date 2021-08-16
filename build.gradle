@@ -1,14 +1,9 @@
-import org.springframework.boot.gradle.plugin.SpringBootPlugin
 import org.apache.tools.ant.taskdefs.condition.Os
 
 buildscript {
-    ext {
-        springBootVersion = "2.0.4.RELEASE"
-        nscorp_repository = "http://takodana.atldc.nscorp.com:8084/nexus/content/groups/NSRepository/"
-        deployDir = "$System.env.JBOSS_HOME\\standalone\\deployments"
-        app_name = 'analytics'
-        env = ''
-    }
+
+    apply from: 'properties.gradle'
+
     repositories {
         maven {
             url nscorp_repository
@@ -28,8 +23,6 @@ plugins {
     id "eclipse"
 }
 
-//apply plugin: SpringBootPlugin
-//apply plugin: 'gitversion'
 apply plugin: 'fortify'
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -201,63 +194,32 @@ task moveWar {
             from "build/libs"
             into "dist"
             include "*.war"
-            rename {String filename -> "${app_name}.war"}
         }
     }
 }
 
 war {
     //webInf { from 'src/main/webapp/WEB-INF' }
-    from 'src/main/angular/angular-analytics/dist/angular-analytics'
+    from 'src/main/angular/analytics/dist/analytics'
     archiveName "${app_name}.war"
 }
 task buildAngular(type: Exec) {
-    workingDir("src/main//angular/angular-analytics")
+    workingDir("src/main/angular/analytics")
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        commandLine 'cmd', '/c', 'ng', 'build', '--prod'
-//        commandLine 'cmd', '/c', 'ng', 'build', '--baseHref=/analytics/', '--prod'
+//        commandLine 'cmd', '/c', 'ng', 'build', '--baseHref=/analytics/'
+        commandLine 'cmd', '/c', 'ng', 'build', '--baseHref=/analytics/', '--prod'
     } else {
-        commandLine 'ng', 'build', '--prod'
-//        commandLine 'ng', 'build', '--baseHref=/analytics/', '--prod'
+//        commandLine 'ng', 'build', '--baseHref=/analytics/'
+        commandLine 'ng', 'build', '--baseHref=/analytics/', '--prod'
     }
 }
-/*
-task serveAngular(type: Exec) {
-    workingDir("src/main//angular/angular-eamon")
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-        commandLine 'cmd', '/c', 'ng', 'serve', '--base-href=/angular-eamon/', '--proxy-conf=proxy.conf.json'
-    } else {
 
-        commandLine 'ng', 'serve', '--base-href=/support-ns/', '--proxy-conf=proxy.conf.json'
-    }
-}
-*/
-
-/*
-task buildWar(dependsOn: ['clean', 'compileJava', 'war']) {
-	doLast {
-
-	}
-}
-*/
-
-/*bootWar {
-    enabled = true
-}*/
 
 compileJava.source = [
         "$projectDir/src/main/java"
 ]
 
-
-//compileJava.dependsOn compileJavaScript
-//build.dependsOn compileJava
-//build.dependsOn moveWar
-//bootWar.finalizedBy moveWar
-//build.dependsOn buildWar
-//build.mustRunAfter buildWar
-
-task localDeploy(group: 'build', dependsOn: 'build') {
+task localDeploy(group: 'build') {
     doLast {
         copy {
             from "dist"
@@ -276,6 +238,6 @@ eclipse {
 compileJava.dependsOn clean
 war.dependsOn compileJava
 //war.dependsOn checkEnvironment
-//war.dependsOn buildAngular
+war.dependsOn buildAngular
 war.finalizedBy moveWar
 localDeploy.dependsOn build

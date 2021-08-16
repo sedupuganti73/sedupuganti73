@@ -1,0 +1,78 @@
+<div class="page-container">
+
+    <button mat-fab (click)="addEditReport(reportId)" color="primary"  matTooltip="Add Report" class="add-button">
+        <mat-icon >add</mat-icon>
+      </button>
+      <h3 class="page-title">Registered Reports </h3>
+
+
+
+<br><br>
+
+<div class="example-container mat-elevation-z8">
+      <mat-progress-bar *ngIf="loading"
+          class="example-margin"
+          color="primary"
+          mode="indeterminate">
+      </mat-progress-bar>
+      <mat-table #table [dataSource]="datasource">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+
+
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+
+
+
+        <ng-container matColumnDef="query">
+            <mat-header-cell *matHeaderCellDef> QUERY </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="padding-right:10px" [matTooltip]="element.query"> {{element.query | query }} </mat-cell>
+          </ng-container>
+
+
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef>DB TYPE </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.dataSource.name}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="sfdctype">
+          <mat-header-cell *matHeaderCellDef>Force TYPE </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.sfdcDataSource.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="createdBy">
+          <mat-header-cell *matHeaderCellDef> CREATED BY </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.createdBy}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> ACTIONS </mat-header-cell>
+          <mat-cell *matCellDef="let element" class="button-row">
+                  <button mat-mini-fab matTooltip="view columns" color="primary"  [routerLink]="['/columns', element.reportId]">
+                    <mat-icon >view_column</mat-icon>
+                  </button>
+                  <button mat-mini-fab style="background-color: #18BC9C"  matTooltip="run report" (click)="runReport(element.reportId)">
+                    <mat-icon >play_arrow</mat-icon>
+                  </button>
+                  <button mat-mini-fab style="background-color: #69f0ae"  matTooltip="history" [routerLink]="['/history', element.reportId]">
+                      <mat-icon >history</mat-icon>
+                    </button>
+                  <button mat-mini-fab color="accent" matTooltip="edit report" (click)="addEditReport(element.reportId)">
+                      <mat-icon >create</mat-icon>
+                    </button>
+                  <button mat-mini-fab color="warn" matTooltip="delete report" (click)="delete(element.reportId)">
+                      <mat-icon >delete_forever</mat-icon>
+                    </button>
+          </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+
+</div>

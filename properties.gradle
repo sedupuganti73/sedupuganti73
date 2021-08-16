@@ -1,0 +1,8 @@
+ext {
+    app_name = 'analytics'
+    nscorp_repository = "http://takodana.atldc.nscorp.com:8084/nexus/content/groups/NSRepository/"
+    deployDir = "$System.env.JBOSS_HOME\\standalone\\deployments"
+    build_dir = "build"
+    required_java_version = JavaVersion.VERSION_1_8
+    springBootVersion = "2.0.4.RELEASE"
+}
