@@ -23,7 +23,6 @@ plugins {
     id "eclipse"
 }
 
-apply plugin: 'fortify'
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'war'
@@ -152,34 +151,9 @@ dependencies {
 
 
 }
-/*task checkEnvironment {
-    if(System.getProperty("system.type") != null){
-        if(System.getProperty("system.type").equalsIgnoreCase("qa")){
-            env = "--qa"
-        }else if(System.getProperty("system.type").equalsIgnoreCase("prod")){
-            env = "--prod"
-        }else if(System.getProperty("system.type").equalsIgnoreCase("test")){
-            env = "--test"
-        }else{
-            env = ""
-        }
-        println("Env:" + env)
-    }else{
-        env = ""
-        println("Env:" + env)
-    }
-}*/
 
 
 defaultTasks "clean", "build"
-
-/*compileJava.dependsOn(processResources)
-
-processResources {
-    filesMatching('application.properties') {
-        expand(project.properties)
-    }
-}*/
 
 idea {
     module {
@@ -199,7 +173,6 @@ task moveWar {
 }
 
 war {
-    //webInf { from 'src/main/webapp/WEB-INF' }
     from 'src/main/angular/analytics/dist/analytics'
     archiveName "${app_name}.war"
 }
