@@ -17,7 +17,6 @@ import { AddColumnComponent } from './add-column/add-column.component';
 import { DatabasesComponent } from './databases/databases.component';
 import { AddDatabaseComponent } from './add-database/add-database.component';
 import { TypePipe } from './report-columns/type.pipe';
-import { QueryPipe } from './reports/query.pipe';
 import { SfdcdatasourceComponent } from './sfdcdatasource/sfdcdatasource.component';
 import { AddSfdcdatasourceComponent } from './add-sfdcdatasource/add-sfdcdatasource.component';
 import { MatCheckboxModule } from '@angular/material';
@@ -36,8 +35,7 @@ import { MatCheckboxModule } from '@angular/material';
     AddDatabaseComponent,
     SfdcdatasourceComponent,
     AddSfdcdatasourceComponent,
-    TypePipe,
-    QueryPipe
+    TypePipe
   ],
   imports: [
     BrowserAnimationsModule,
