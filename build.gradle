@@ -122,6 +122,12 @@ dependencies {
     compile group: 'com.spring.honda', name: 'unbescape', version: '1.1.5.RELEASE'
     compile group: 'com.spring.honda', name: 'validation-api', version: '2.0.1.Final'
 
+//    compile 'com.microsoft.sqlserver:mssql-jdbc:6.1.0.jre8'
+
+    implementation (group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '8.4.1.jre8'){
+        exclude group: 'com.google.code.gson', module: 'com.google.code.gson'
+    }
+
 
     implementation 'org.apache.commons:commons-text:1.4'
     compile fileTree(dir: 'lib', include: '*.jar')
@@ -210,7 +216,6 @@ eclipse {
 
 compileJava.dependsOn clean
 war.dependsOn compileJava
-//war.dependsOn checkEnvironment
 war.dependsOn buildAngular
 war.finalizedBy moveWar
 localDeploy.dependsOn build

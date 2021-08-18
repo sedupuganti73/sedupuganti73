@@ -1,7 +1,9 @@
 package com.nscorp.analytics.utils;
 
-import com.nscorp.analytics.model.AuthenticationInfo;
-import com.nscorp.analytics.model.SFDCDataSource;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
@@ -23,9 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import com.nscorp.analytics.model.AuthenticationInfo;
+import com.nscorp.analytics.model.SFDCDataSource;
 
 /**
  * @author sedupuganti
@@ -34,7 +35,7 @@ import java.util.List;
 
 @Component
 public class HttpUtils {
-	private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class);
+	private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class); 
 	
 	public String authenticate(SFDCDataSource dataSource) throws Exception {
 		logger.info("Start : HttpUtils.getAuthDetails", dataSource); 
@@ -54,7 +55,9 @@ public class HttpUtils {
         try {
 	        response = httpClient.execute(postRequest);
 	        result = EntityUtils.toString(response.getEntity());
+	        System.out.println("result----->"+ result);
 	        int statusCode = response.getStatusLine().getStatusCode();
+	        System.out.println("statusCode----->"+ statusCode);
 	        if (statusCode > 299) {
 	        	throw new Exception("Authentication Failed!!.") ;
 	        }
