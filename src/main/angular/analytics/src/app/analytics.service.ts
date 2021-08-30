@@ -4,7 +4,7 @@ import { HttpClient} from '@angular/common/http';
 
 @Injectable()
 export class AnalyticsService {
-  prefix = '/api';
+  prefix = '/analytics/api';
   constructor(private http: HttpClient) { }
   getReports(): Observable<any> {
     return this.http.get(this.prefix + '/reports/');
@@ -37,8 +37,8 @@ export class AnalyticsService {
   getHistory(reportId: number): Observable<any> {
     return this.http.get(this.prefix + '/history/' + reportId);
   }
-  
-  
+
+
   addReportColumn( name: string, reportId: number, label: string, type: string, format: string, primaryKey: number,precision: number,scale: number ): Observable<any> {
     return this.http.post(this.prefix + '/columns/create', { name: name, reportId: reportId, label: label, type: type, format: format, primaryKey: primaryKey,precision: precision,scale: scale});
   }
@@ -57,7 +57,7 @@ export class AnalyticsService {
     return this.http.get(this.prefix + '/ds/');
   }
   getDatabase(dsId: number): Observable<any> {
-    return this.http.get(this.prefix + '/ds/' + dsId); 
+    return this.http.get(this.prefix + '/ds/' + dsId);
   }
   addDatabase( name: string, description: string, url: string, username: string, password: string,driverClassName: string ): Observable<any> {
     return this.http.post(this.prefix + '/ds/',
@@ -73,7 +73,7 @@ export class AnalyticsService {
   runReport( reportId: number ): Observable<any> {
     return this.http.get(this.prefix + '/load/' + reportId);
   }
-  
+
   getForceDatabases(): Observable<any> {
     return this.http.get(this.prefix + '/forceDs/');
   }
@@ -90,6 +90,6 @@ export class AnalyticsService {
   }
   deleteForceDatabase ( dsId: number): Observable<any> {
     return this.http.delete(this.prefix + '/forceDs/' + dsId);
-  }  
+  }
 
 }

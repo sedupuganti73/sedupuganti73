@@ -1,5 +1,33 @@
 package com.nscorp.analytics.utils;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import com.nscorp.analytics.exceptions.DuplicateColumnException;
 import com.nscorp.analytics.model.AuthenticationInfo;
 import com.nscorp.analytics.model.Report;
@@ -7,22 +35,6 @@ import com.nscorp.analytics.model.ReportColumn;
 import com.nscorp.analytics.model.ReportHistory;
 import com.nscorp.analytics.service.ReportHistoryService;
 import com.nscorp.analytics.service.ReportsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import java.io.*;
-import java.sql.*;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author sedupuganti
@@ -76,7 +88,7 @@ public class ReportData {
 		}  catch (SQLException e) {
 			e.printStackTrace();
 			logger.error("ReportData.getColumns", e.getMessage());
-			throw new Exception(e.getMessage());
+			throw new Exception(e.getMessage()); 
 		} finally {
 			if (result != null) {
 				try {
@@ -425,7 +437,8 @@ public class ReportData {
 			
 			//System.out.println("Column Data :::" + column.getName() + "Column Type ::" + columnType);
 
-			if ("Char".equalsIgnoreCase(columnType) || "Varchar".equalsIgnoreCase(columnType) || "nVarchar".equalsIgnoreCase(columnType) || "Time".equalsIgnoreCase(columnType) || "VARCHAR2".equalsIgnoreCase(columnType)) {
+			if ("Char".equalsIgnoreCase(columnType) || "Varchar".equalsIgnoreCase(columnType) || "nVarchar".equalsIgnoreCase(columnType) || "Time".equalsIgnoreCase(columnType) || "VARCHAR2".equalsIgnoreCase(columnType)
+					|| "BOOLEAN".equalsIgnoreCase(columnType)) {
 				column.setType('S');
 		    } else if ("Date".equalsIgnoreCase(columnType)) {
 		    	column.setType('D');

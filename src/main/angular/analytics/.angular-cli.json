@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "frontend"
+    "name": "analytics"
   },
   "apps": [
     {
       "root": "src",
-      "outDir": "../src/main/resources/static",
+      "outDir": "dist/analytics",
       "assets": [
         "assets",
         "favicon.ico"

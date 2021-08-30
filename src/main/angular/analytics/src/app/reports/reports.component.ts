@@ -16,7 +16,7 @@ export class ReportsComponent implements OnInit {
   public datasource: DataSource<Report> = new ReportsDataSource() ;
   public displayedColumns = [ 'name', 'query', 'type', 'createdBy', 'actions'];
   public loading = true;
-  reportId: string
+  public reportId: string;
   constructor(private analyticsService: AnalyticsService, public dialog: MatDialog, public snackBar: MatSnackBar) { }
 
   ngOnInit() {
