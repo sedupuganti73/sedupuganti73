@@ -3,13 +3,14 @@
  */
 package com.nscorp.analytics.utils;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * @author sedupuganti
@@ -65,7 +66,17 @@ public class DBConnection {
 			    //Class.forName("cs.jdbc.driver.CompositeDriver");
 				Class.forName(driverClassName);
 			}
+			System.out.println("UserName ::"+ userName+ "Password :::"+ password);
+			System.out.println("Login Time Out Before ::"+DriverManager.getLoginTimeout());
+			/*Properties properties = new Properties();
+			properties.put("ConnectionLifetime", "36000000"); 
+			properties.put("user", userName);
+			properties.put("password", password);*/
+			//DriverManager.setLoginTimeout(36000);
 		    connection = DriverManager.getConnection(url, userName, password);
+			//connection = DriverManager.getConnection(url,properties);
+		    System.out.println("Login Time Out After ::"+DriverManager.getLoginTimeout());
+		    //connection.setNetworkTimeout(executor, milliseconds);
 		} catch(Exception ex) {
 			ex.printStackTrace();
 			logger.error("DBConnection.getConntection", ex.getMessage());

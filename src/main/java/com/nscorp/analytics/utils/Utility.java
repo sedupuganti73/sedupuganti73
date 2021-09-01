@@ -1,14 +1,15 @@
 package com.nscorp.analytics.utils;
 
 
-import com.nscorp.analytics.model.AuthenticationInfo;
-import com.nscorp.analytics.model.SFDCDataSource;
 import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.nscorp.analytics.model.AuthenticationInfo;
+import com.nscorp.analytics.model.SFDCDataSource;
 
 /**
  * @author sedupuganti
@@ -43,14 +44,14 @@ public class Utility {
 	private String clientSecret;
 	
 	
-	public AuthenticationInfo getConnection(SFDCDataSource dataSource) {
+	public AuthenticationInfo getConnection(SFDCDataSource dataSource) throws Exception {
 		
 		
 		return getAuthDetails(dataSource);
 	}
 	
 	
-	public AuthenticationInfo getAuthDetails(SFDCDataSource dataSource) {
+	public AuthenticationInfo getAuthDetails(SFDCDataSource dataSource) throws Exception {
 		logger.info("Start : Utility.getAuthDetails", dataSource); 
 		AuthenticationInfo authInfo = null;
 		for (int i=0; i< MAX_RETRIES; i++ ) {
@@ -68,8 +69,13 @@ public class Utility {
 				System.out.println("apiVersion==========>"+ apiVersion);
 				break;
 			} catch (Exception ce) {
+				System.out.println("Exception==========>"+ apiVersion);
 				logger.error("Utility.getAuthDetails", ce.getMessage());
 			}
+		}
+		System.out.println("authInfo==========>"+ authInfo);
+		if (authInfo == null) {
+			throw new Exception("Could not acquire Salesforce connection.Please contact System Administrator!!");
 		}
 		logger.info("End : Utility.getConntection", sfdcUrl, userName);
 		return authInfo;

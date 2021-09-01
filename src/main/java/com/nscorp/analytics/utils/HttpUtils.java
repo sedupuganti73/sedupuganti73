@@ -35,41 +35,45 @@ import com.nscorp.analytics.model.SFDCDataSource;
 
 @Component
 public class HttpUtils {
-	private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class);
-
+	private static final Logger logger = LoggerFactory.getLogger(HttpUtils.class); 
+	
 	public String authenticate(SFDCDataSource dataSource) throws Exception {
-		logger.info("Start : HttpUtils.getAuthDetails", dataSource);
+		logger.info("Start : HttpUtils.getAuthDetails", dataSource); 
 		String result = null;
-		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-		String authenticateUrl = dataSource.getUrl() + "/oauth2/token";
-		HttpPost postRequest = new HttpPost(authenticateUrl);
-		postRequest.addHeader(getHeader(HttpHeaders.CONTENT_TYPE,"application/x-www-form-urlencoded"));
-		List<BasicNameValuePair> urlParameters = new ArrayList<>();
-        urlParameters.add(new BasicNameValuePair("grant_type", "password"));
-        urlParameters.add(new BasicNameValuePair("username", dataSource.getUsername()));
-        urlParameters.add(new BasicNameValuePair("password",dataSource.getPassword()));
-        urlParameters.add(new BasicNameValuePair("client_id", dataSource.getClientId()));
-        urlParameters.add(new BasicNameValuePair("client_secret", dataSource.getClientSecret()));
-        postRequest.setEntity(new UrlEncodedFormEntity(urlParameters));
-        CloseableHttpResponse response;
-        try {
-	        response = httpClient.execute(postRequest);
-	        result = EntityUtils.toString(response.getEntity());
-	        System.out.println("result----->"+ result);
-	        int statusCode = response.getStatusLine().getStatusCode();
-	        System.out.println("statusCode----->"+ statusCode);
-	        if (statusCode > 299) {
-	        	throw new Exception("Authentication Failed!!.") ;
+		try {
+			CloseableHttpClient httpClient = HttpClientBuilder.create().build(); 
+			String authenticateUrl = dataSource.getUrl() + "/oauth2/token";
+			HttpPost postRequest = new HttpPost(authenticateUrl);
+			postRequest.addHeader(getHeader(HttpHeaders.CONTENT_TYPE,"application/x-www-form-urlencoded"));
+			List<BasicNameValuePair> urlParameters = new ArrayList<>();
+	        urlParameters.add(new BasicNameValuePair("grant_type", "password"));
+	        urlParameters.add(new BasicNameValuePair("username", dataSource.getUsername()));
+	        urlParameters.add(new BasicNameValuePair("password",dataSource.getPassword()));
+	        urlParameters.add(new BasicNameValuePair("client_id", dataSource.getClientId()));
+	        urlParameters.add(new BasicNameValuePair("client_secret", dataSource.getClientSecret()));
+	        postRequest.setEntity(new UrlEncodedFormEntity(urlParameters));
+	        CloseableHttpResponse response;
+	        try {
+		        response = httpClient.execute(postRequest);
+		        result = EntityUtils.toString(response.getEntity());
+		        System.out.println("result----->"+ result);
+		        int statusCode = response.getStatusLine().getStatusCode();
+		        System.out.println("statusCode----->"+ statusCode);
+		        if (statusCode > 299) {
+		        	throw new Exception("Authentication Failed!!.") ;
+		        }
+		        
+	        } catch (Exception ex) {
+	        	logger.error("HttpUtils.authenticate", ex.getMessage());
+	        	throw new Exception(ex.getMessage()) ;
+	        } finally {
+	        	httpClient = null;
+	        	response = null;
+	        	postRequest = null;
 	        }
-
-        } catch (Exception ex) {
-        	logger.error("HttpUtils.authenticate", ex.getMessage());
-        	throw new Exception(ex.getMessage()) ;
-        } finally {
-        	httpClient = null;
-        	response = null;
-        	postRequest = null;
-        }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         logger.info("End : HttpUtils.authenticate", dataSource);
         return result;
 	}

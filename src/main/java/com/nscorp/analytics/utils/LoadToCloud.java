@@ -3,6 +3,18 @@
  */
 package com.nscorp.analytics.utils;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jettison.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
@@ -16,17 +28,6 @@ import com.nscorp.analytics.dataObjects.ObjectData;
 import com.nscorp.analytics.model.AuthenticationInfo;
 import com.nscorp.analytics.model.Report;
 import com.nscorp.analytics.model.ReportColumn;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jettison.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
 
 /**
  * @author sedupuganti
