@@ -21,7 +21,7 @@ spring:
         apiVersion: v51.0
         password: Test987$JJX8sjzSphj6zwlVJ9grIG2vF
         url: https://test.salesforce.com/services/Soap/u/36.0
-        username: sudarshanrao.edupuganti@bnsf.com.trial
+        username: sudarshanrao.edupuganti@com.trial
     data:
         file-size: 9995000
         path: C:\Users\fjeqy\Analytics\dataFolder
