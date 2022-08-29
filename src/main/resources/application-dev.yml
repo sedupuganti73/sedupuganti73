@@ -2,7 +2,7 @@ spring:
     datasource:
         driver-class-name: com.ibm.db2.jcc.DB2Driver
         password: Test
-        url: jdbc:db2://dsn01d.db.bnsf.com:55000/
+        url: jdbc:db2://123.123.com:55000/
         username: Test
     jpa:
         properties:
